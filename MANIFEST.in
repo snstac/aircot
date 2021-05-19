@@ -1,0 +1,8 @@
+graft aircot
+
+global-exclude .DS_Store
+global-exclude __pycache__
+global-exclude *.pyc
+
+include README.rst LICENSE
+
