@@ -21,13 +21,13 @@ provide ongoing SA capabilities to our end-users, is greatly appreciated:
 
 .. image:: https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png
     :target: https://www.buymeacoffee.com/ampledata
-    :alt: Support PyTAK development: Buy me a coffee!
+    :alt: Support AirCot development: Buy me a coffee!
 
 
 Requirements
 ============
 
-PyTAK requires Python 3.6 or above and WILL NOT work on Python versions below 3.6 (that means no Python 2 support).
+AirCoT requires Python 3.6 or above and WILL NOT work on Python versions below 3.6 (that means no Python 2 support).
 
 Installation
 ============
