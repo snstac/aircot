@@ -54,11 +54,6 @@ Install from this source tree::
 
 
 
-Build Status
-============
-
-.. image:: https://travis-ci.com/ampledata/aircot.svg?branch=main
-    :target: https://travis-ci.com/ampledata/aircot
 
 Source
 ======
