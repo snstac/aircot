@@ -289,9 +289,3 @@ def read_known_craft(csv_file: str) -> list:
         for row in reader:
             all_rows.append(row)
     return all_rows
-
-
-def get_filtered_csv_regs(csv_file: str) -> list:
-    filtered_csv = read_filter_csv(csv_file)
-    regs = [x["REG"] for x in filtered_csv]
-    return regs
