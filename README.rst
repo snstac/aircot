@@ -5,7 +5,7 @@ aircot - Cursor on Target (CoT) Classifiers for ADS-B & Aircraft data.
 AirCoT is a Python Module with functions & methods for Cursor on Target (CoT) Event typing/classifying of aircraft
 based on ADS-B data.
 
-Examples of software clients using the AirCoT::
+Examples of software clients using the AirCoT:
 
 * `adsbcot <https://github.com/ampledata/adsbcot>`_: Automatic Dependent Surveillance-Broadcast (ADS-B) to Cursor on Target (CoT) Gateway. Transforms ADS-B position messages to CoT PLI Events.
 * `adsbxcot <https://github.com/ampledata/adsbxcot>`_: ADS-B Exchange to Cursor on Target (CoT) Gateway. Transforms ADS-B position messages to CoT PLI Events.
