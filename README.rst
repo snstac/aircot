@@ -37,8 +37,8 @@ independently.
 
 Installing as a Debian/Ubuntu Package::
 
-    $ wget https://github.com/ampledata/aircot/releases/download/31928/python3-aircot_3.5.0b1-1_all.deb
-    $ sudo apt install -f ./python3-aircot_3.5.0b1-1_all.deb
+    $ wget https://github.com/ampledata/aircot/releases/latest/download/python3-aircot_latest_all.deb
+    $ sudo apt install -f ./python3-aircot_latest_all.deb
 
 Install from the Python Package Index::
 
