@@ -145,7 +145,7 @@ def test_negative_get_hae():
 def test_get_speed():
     gs = 79.5
     speed = aircot.functions.get_speed(gs)
-    assert speed == "11780.52"
+    assert speed == "40.898298000000004"
 
 
 def test_negative_get_speed():

@@ -12,7 +12,7 @@ Examples of software clients using the AirCoT::
 * `stratuxcot <https://github.com/ampledata/stratuxcot>`_: Stratux ADS-B to Cursor on Target (CoT) Gateway. Transforms position messages to CoT PLI Events.
 
 Support AirCot Development
-=========================
+==========================
 
 AirCoT has been developed for the Disaster Response, Public Safety and Frontline community at-large. This software is
 currently provided at no-cost to our end-users. All development is self-funded and all time-spent is entirely
