@@ -4,6 +4,7 @@
 """AirCoT Functions."""
 
 import asyncio
+import csv
 import datetime
 import os
 import socket
@@ -216,3 +217,81 @@ def set_domestic_us(flight: str = None, attitude: str = ".") -> str:
             if flight.startswith(dom):
                 attitude = "n"
     return attitude
+
+
+
+def get_hae(alt_geom: float = 0.0) -> str:
+    # alt_geom: geometric (GNSS / INS) altitude in feet referenced to the
+    #           WGS84 ellipsoid
+    if alt_geom:
+        hae = alt_geom * 0.3048
+    else:
+        hae = "9999999.0"
+    return str(hae)
+
+
+def get_speed(gs: float = 0.0):
+    # gs: ground speed in knots
+    if gs:
+        speed = gs * 0.514444
+    else:
+        speed = "9999999.0"
+    return str(speed)
+
+
+def set_name_callsign(icao: str, reg, craft_type, flight, known_craft={}):
+    name: str = known_craft.get("CALLSIGN")
+    if name:
+        callsign = name
+    else:
+        name = f"ICAO-{icao}"
+        if flight:
+            callsign = "-".join([flight.strip().upper(), reg, craft_type])
+        else:
+            callsign = "-".join([reg, craft_type])
+    return name, callsign
+
+
+def set_category(category, known_craft={}):
+    cot_type = known_craft.get("COT")
+    if not cot_type:
+        known_type = known_craft.get("TYPE", "").strip().upper()
+        if known_type:
+            if known_type == "FIXED WING":
+                category = "1"
+            elif known_type == "HELICOPTER":
+                category = "7"
+            elif known_type == "UAS":
+                category = "14"
+            else:
+                category = known_type
+    return category
+
+
+def set_cot_type(icao_hex, category, flight, known_craft):
+    cot_type = known_craft.get("COT")
+    if not cot_type:
+        cot_type = aircot.adsb_to_cot_type(icao_hex, category, flight)
+    return cot_type
+
+
+def icao_int_to_hex(addr) -> str:
+    return str(hex(addr)).lstrip('0x').upper()
+
+
+
+
+def read_known_craft(csv_file: str) -> list:
+    """Reads the FILTER_CSV file into a `list`"""
+    all_rows = []
+    with open(csv_file) as csv_fd:
+        reader = csv.DictReader(csv_fd)
+        for row in reader:
+            all_rows.append(row)
+    return all_rows
+
+
+def get_filtered_csv_regs(csv_file: str) -> list:
+    filtered_csv = read_filter_csv(csv_file)
+    regs = [x["REG"] for x in filtered_csv]
+    return regs

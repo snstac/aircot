@@ -129,3 +129,26 @@ def test_cot_type_from_category_D6():
     cot_type, affil = aircot.functions.cot_type_from_category(category, attitude, affiliation)
     assert cot_type == "a-f-A-C"
     assert affil == "C"
+
+
+def test_get_hae():
+    alt_geom = 38650
+    hae = aircot.functions.get_hae(alt_geom)
+    assert hae == "11780.52"
+
+
+def test_negative_get_hae():
+    alt_geom = ""
+    hae = aircot.functions.get_hae(alt_geom)
+    assert hae == "9999999.0"
+
+def test_get_speed():
+    gs = 79.5
+    speed = aircot.functions.get_speed(gs)
+    assert speed == "11780.52"
+
+
+def test_negative_get_speed():
+    gs = ""
+    speed = aircot.functions.get_speed(gs)
+    assert speed == "9999999.0"
