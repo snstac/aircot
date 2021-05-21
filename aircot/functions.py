@@ -178,7 +178,7 @@ def set_friendly_mil(icao_int: int, affil: str = "", attitude: str = ".") -> tup
 
 def set_neutral_civ(icao: int, affil: str = "", attitude: str = ".") -> tuple:
     """Sets Affiliation and Attitude for known 'neutral' Civilian ICAOs."""
-    if icao_in_range(icao, "MIL"):
+    if icao_in_range(icao):
         attitude = "n"
         affil = "C"
     return affil, attitude
