@@ -52,7 +52,8 @@ lint:
 
 pylint: lint
 
-# test: lint pep8 nosetests
+checkmetadata:
+	python setup.py check -s --restructuredtext
 
 mypy:
 	mypy --strict .

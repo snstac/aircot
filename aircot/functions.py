@@ -55,7 +55,7 @@ def adsb_to_cot_type(icao: typing.Union[str, int], category: typing.Union[str, N
     ADS-B DO-260B or GDL90 Emitter Category & Flight ID.
     """
     affil = "C"  # Affiliation, default = Civilian
-    attitude = "."  # Attitude
+    attitude = "u"  # Attitude
 
     # TODO: If the adsbx has a leading underscore and registry "_N1234A" then that means they are calculating the
     #  registration with no Flight ID field transmited

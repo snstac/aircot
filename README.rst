@@ -52,9 +52,6 @@ Install from this source tree::
     $ python setup.py install
 
 
-
-
-
 Source
 ======
 Github: https://github.com/ampledata/aircot
