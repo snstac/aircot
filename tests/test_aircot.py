@@ -71,13 +71,27 @@ def test_negative_get_icao_range():
 
 def test_icao_in_range():
     icao = 0xC80000  # NZ-CIV Range
-    in_range = aircot.functions.icao_in_range(icao)
+    in_range = aircot.functions.icao_in_known_range(icao)
     assert in_range == True
+
+
+def test_set_neutral_civ():
+    icao = 0xC80000  # NZ-CIV Range
+    affil, attitude = aircot.functions.set_neutral_civ(icao)
+    assert affil == "C"
+    assert attitude == "n"
+
+
+def test_negative_set_neutral_civ():
+    icao = 0xC87F00  # NZ-MIL Range
+    affil, attitude = aircot.functions.set_neutral_civ(icao)
+    assert "" == affil
+    assert "u" == attitude
 
 
 def test_icao_in_range_mil():
     icao = 0xC87F00  # NZ-MIL Range
-    in_range = aircot.functions.icao_in_range(icao, "MIL")
+    in_range = aircot.functions.icao_in_known_range(icao, "MIL")
     assert in_range == True
 
 
@@ -91,8 +105,8 @@ def test_set_friendly_mil():
 def test_negative_set_friendly_mil():
     icao = 0xC80000  # NZ-CIV Range
     affil, attitude = aircot.functions.set_friendly_mil(icao)
-    assert affil == ""
-    assert attitude == "."
+    assert "" == affil
+    assert "u" == attitude
 
 
 def test_cot_type_from_category_A5():

@@ -33,15 +33,14 @@ def lookup_country(icao: int) -> str:
 #  FlightID AND/OR ICAO HEX address.
 def dolphin(flight: str = None, affil: str = None) -> str:
     """
-    Classify an aircraft as USCG Dolphin, or not.
-    What, are you afraid of water?
-    """
-    # MH-65D Dolphins out of Air Station SF use older ADS-B, but luckily have
-    # a similar "flight" name.
-    # For example:
-    # * C6540 / AE2682 https://globe.adsbexchange.com/?icao=ae2682
-    # * C6604 / AE26BB https://globe.adsbexchange.com/?icao=ae26bb
+    Classify an aircraft as USCG Dolphin.
 
+    MH-65D Dolphins out of Air Station SF use older ADS-B, but luckily have a similar "flight" name.
+
+    For example:
+    * C6540 / AE2682 https://globe.adsbexchange.com/?icao=ae2682
+    * C6604 / AE26BB https://globe.adsbexchange.com/?icao=ae26bb
+    """
     if flight and len(flight) >= 3 and flight[:2] in ["C6", b"C6"]:
         if affil and affil in ["M", b"M"]:
             return True
@@ -55,7 +54,7 @@ def adsb_to_cot_type(icao: typing.Union[str, int], category: typing.Union[str, N
     ADS-B DO-260B or GDL90 Emitter Category & Flight ID.
     """
     affil = "C"  # Affiliation, default = Civilian
-    attitude = "u"  # Attitude
+    attitude = "u"  # Attitude, default = unknown
 
     # TODO: If the adsbx has a leading underscore and registry "_N1234A" then that means they are calculating the
     #  registration with no Flight ID field transmited
@@ -161,30 +160,30 @@ def get_icao_range(range_type: str = "CIV") -> list:
     return list(filter(lambda x: f"-{range_type}" in x, aircot.DEFAULT_HEX_RANGES))
 
 
-def icao_in_range(icao_int, range_type: str = "CIV") -> bool:
+def icao_in_known_range(icao_int, range_type: str = "CIV") -> bool:
     """Determines if the given ICAO is within a known 'friendly' ICAO Range."""
     for idx in get_icao_range(range_type):
         if aircot.DEFAULT_HEX_RANGES[idx]["start"] <= icao_int <= aircot.DEFAULT_HEX_RANGES[idx]["end"]:
             return True
 
 
-def set_friendly_mil(icao_int: int, affil: str = "", attitude: str = ".") -> tuple:
+def set_friendly_mil(icao: int, attitude: str = "u", affil: str = "") -> tuple:
     """Sets Affiliation and Attitude for 'friendly' Military ICAOs."""
-    if icao_in_range(icao_int, "MIL"):
-        attitude = "f"
+    if icao_in_known_range(icao, "MIL"):
         affil = "M"
+        attitude = "f"
     return affil, attitude
 
 
-def set_neutral_civ(icao: int, affil: str = "", attitude: str = ".") -> tuple:
+def set_neutral_civ(icao: int, attitude: str = "u", affil: str = "") -> tuple:
     """Sets Affiliation and Attitude for known 'neutral' Civilian ICAOs."""
-    if icao_in_range(icao):
-        attitude = "n"
+    if icao_in_known_range(icao):
         affil = "C"
+        attitude = "n"
     return affil, attitude
 
 
-def is_known_country_icao(icao: int, attitude: str = "."):
+def is_known_country_icao(icao: int, attitude: str = "u"):
     if lookup_country(icao):
         attitude = "n"
     return attitude
@@ -201,7 +200,7 @@ def is_civ(icao: int) -> str:
             return True
 
 
-def is_tw(icao: int, attitude: str = ".") -> str:
+def is_tw(icao: int, attitude: str = "u") -> str:
     tw_start = 0x899000
     tw_end = 0x8993FF
     if tw_start <= icao <= tw_end:
@@ -277,7 +276,6 @@ def set_cot_type(icao_hex, category, flight, known_craft):
 
 def icao_int_to_hex(addr) -> str:
     return str(hex(addr)).lstrip('0x').upper()
-
 
 
 
