@@ -172,7 +172,7 @@ def set_friendly_mil(icao: int, attitude: str = "u", affil: str = "") -> tuple:
     if icao_in_known_range(icao, "MIL"):
         affil = "M"
         attitude = "f"
-    return affil, attitude
+    return attitude, affil
 
 
 def set_neutral_civ(icao: int, attitude: str = "u", affil: str = "") -> tuple:
@@ -180,7 +180,7 @@ def set_neutral_civ(icao: int, attitude: str = "u", affil: str = "") -> tuple:
     if icao_in_known_range(icao):
         affil = "C"
         attitude = "n"
-    return affil, attitude
+    return attitude, affil
 
 
 def is_known_country_icao(icao: int, attitude: str = "u"):
@@ -238,16 +238,26 @@ def get_speed(gs: float = 0.0):
     return str(speed)
 
 
-def set_name_callsign(icao: str, reg, craft_type, flight, known_craft={}):
+def set_name_callsign(icao: str, reg=None, craft_type=None, flight=None, known_craft={}):
+    """
+    Sets the Name and Callsign of the CoT Event.
+    Populates the fields with ICAO, Reg, Craft Type and Flight data, if available.
+    """
     name: str = known_craft.get("CALLSIGN")
     if name:
         callsign = name
     else:
         name = f"ICAO-{icao}"
-        if flight:
+        if flight and reg and craft_type:
             callsign = "-".join([flight.strip().upper(), reg, craft_type])
-        else:
+        elif reg and craft_type:
             callsign = "-".join([reg, craft_type])
+        elif reg:
+            callsign = reg
+        elif flight:
+            callsign = flight.strip().upper()
+        else:
+            callsign = name
     return name, callsign
 
 

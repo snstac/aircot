@@ -77,14 +77,14 @@ def test_icao_in_range():
 
 def test_set_neutral_civ():
     icao = 0xC80000  # NZ-CIV Range
-    affil, attitude = aircot.functions.set_neutral_civ(icao)
+    attitude, affil = aircot.functions.set_neutral_civ(icao)
     assert affil == "C"
     assert attitude == "n"
 
 
 def test_negative_set_neutral_civ():
     icao = 0xC87F00  # NZ-MIL Range
-    affil, attitude = aircot.functions.set_neutral_civ(icao)
+    attitude, affil = aircot.functions.set_neutral_civ(icao)
     assert "" == affil
     assert "u" == attitude
 
@@ -97,14 +97,14 @@ def test_icao_in_range_mil():
 
 def test_set_friendly_mil():
     icao = 0xC87F00  # NZ-MIL Range
-    affil, attitude = aircot.functions.set_friendly_mil(icao)
+    attitude, affil  = aircot.functions.set_friendly_mil(icao)
     assert affil == "M"
     assert attitude == "f"
 
 
 def test_negative_set_friendly_mil():
     icao = 0xC80000  # NZ-CIV Range
-    affil, attitude = aircot.functions.set_friendly_mil(icao)
+    attitude, affil  = aircot.functions.set_friendly_mil(icao)
     assert "" == affil
     assert "u" == attitude
 
@@ -166,3 +166,73 @@ def test_negative_get_speed():
     gs = ""
     speed = aircot.functions.get_speed(gs)
     assert speed == "9999999.0"
+
+
+def test_negative_set_neutral_civ_lux():
+    icao = 0x4D0223  # from sn
+    affil, attitude = aircot.functions.set_neutral_civ(icao)
+    assert "u" == affil
+    assert "" == attitude
+
+
+def test_adsb_to_cot_type_lux():
+    icao = 0x4D0223
+    category = "1"
+    flight = "SVW20E"
+    cot_type = aircot.adsb_to_cot_type(icao, category, flight)
+    assert "a-n-A-C-F" == cot_type
+
+
+def test_set_name_callsign_icao():
+    #icao: str, reg, craft_type, flight, known_craft = {}
+    icao = "icao123"
+    reg = "reg123"
+    craft_type = "craft_type123"
+    flight = "flight123"
+    name, callsign = aircot.set_name_callsign(icao)
+    assert "ICAO-icao123" == name
+    assert "ICAO-icao123" == callsign
+
+
+def test_set_name_callsign_icao_reg():
+    #icao: str, reg, craft_type, flight, known_craft = {}
+    icao = "icao123"
+    reg = "reg123"
+    craft_type = "craft_type123"
+    flight = "flight123"
+    name, callsign = aircot.set_name_callsign(icao, reg)
+    assert "ICAO-icao123" == name
+    assert "reg123" == callsign
+
+
+def test_set_name_callsign_icao_reg_craft_type():
+    #icao: str, reg, craft_type, flight, known_craft = {}
+    icao = "icao123"
+    reg = "reg123"
+    craft_type = "craft_type123"
+    flight = "flight123"
+    name, callsign = aircot.set_name_callsign(icao, reg, craft_type)
+    assert "ICAO-icao123" == name
+    assert "reg123-craft_type123" == callsign
+
+
+def test_set_name_callsign_icao_reg_craft_type_flight():
+    #icao: str, reg, craft_type, flight, known_craft = {}
+    icao = "icao123"
+    reg = "reg123"
+    craft_type = "craft_type123"
+    flight = "flight123"
+    name, callsign = aircot.set_name_callsign(icao, reg, craft_type, flight)
+    assert "ICAO-icao123" == name
+    assert "FLIGHT123-reg123-craft_type123" == callsign
+
+
+def test_set_name_callsign_icao_flight():
+    #icao: str, reg, craft_type, flight, known_craft = {}
+    icao = "icao123"
+    reg = "reg123"
+    craft_type = "craft_type123"
+    flight = "flight123"
+    name, callsign = aircot.set_name_callsign(icao, flight=flight)
+    assert "ICAO-icao123" == name
+    assert "FLIGHT123" == callsign
