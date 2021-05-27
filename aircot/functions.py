@@ -252,10 +252,10 @@ def set_name_callsign(icao: str, reg=None, craft_type=None, flight=None, known_c
             callsign = "-".join([flight.strip().upper(), reg, craft_type])
         elif reg and craft_type:
             callsign = "-".join([reg, craft_type])
-        elif reg:
-            callsign = reg
         elif flight:
             callsign = flight.strip().upper()
+        elif reg:
+            callsign = reg
         else:
             callsign = name
     return name, callsign
