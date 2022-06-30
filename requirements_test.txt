@@ -1,5 +1,5 @@
-pytest
+pytest-asyncio
 pytest-cov
-flake8
 pylint
-mypy
+flake8
+black

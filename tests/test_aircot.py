@@ -1,5 +1,20 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# Copyright 2022 Greg Albrecht <oss@undef.net>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Author:: Greg Albrecht W2GMD <oss@undef.net>
+#
 
 """AirCoT Module Tests."""
 
@@ -12,7 +27,7 @@ import aircot
 import aircot.functions
 
 __author__ = "Greg Albrecht W2GMD <oss@undef.net>"
-__copyright__ = "Copyright 2021 Orion Labs, Inc."
+__copyright__ = "Copyright 2022 Greg Albrecht"
 __license__ = "Apache License, Version 2.0"
 
 
@@ -97,14 +112,14 @@ def test_icao_in_range_mil():
 
 def test_set_friendly_mil():
     icao = 0xC87F00  # NZ-MIL Range
-    attitude, affil  = aircot.functions.set_friendly_mil(icao)
+    attitude, affil = aircot.functions.set_friendly_mil(icao)
     assert affil == "M"
     assert attitude == "f"
 
 
 def test_negative_set_friendly_mil():
     icao = 0xC80000  # NZ-CIV Range
-    attitude, affil  = aircot.functions.set_friendly_mil(icao)
+    attitude, affil = aircot.functions.set_friendly_mil(icao)
     assert "" == affil
     assert "u" == attitude
 
@@ -113,7 +128,9 @@ def test_cot_type_from_category_A5():
     category = "A5"
     attitude = "u"
     affiliation = "C"
-    cot_type, affil = aircot.functions.cot_type_from_category(category, attitude, affiliation)
+    cot_type, affil = aircot.functions.cot_type_from_category(
+        category, attitude, affiliation
+    )
     assert cot_type == "a-u-A-C-F"
     assert affil == "C"
 
@@ -122,7 +139,9 @@ def test_cot_type_from_category_A6():
     category = "A6"
     attitude = "f"
     affiliation = "x"
-    cot_type, affil = aircot.functions.cot_type_from_category(category, attitude, affiliation)
+    cot_type, affil = aircot.functions.cot_type_from_category(
+        category, attitude, affiliation
+    )
     assert cot_type == "a-f-A-M-F-F"
     assert affil == "M"
 
@@ -131,7 +150,9 @@ def test_cot_type_from_category_B6():
     category = "B6"
     attitude = "f"
     affiliation = "x"
-    cot_type, affil = aircot.functions.cot_type_from_category(category, attitude, affiliation)
+    cot_type, affil = aircot.functions.cot_type_from_category(
+        category, attitude, affiliation
+    )
     assert cot_type == "a-f-A-M-F-Q"
     assert affil == "M"
 
@@ -140,7 +161,9 @@ def test_cot_type_from_category_D6():
     category = "D6"
     attitude = "f"
     affiliation = "C"
-    cot_type, affil = aircot.functions.cot_type_from_category(category, attitude, affiliation)
+    cot_type, affil = aircot.functions.cot_type_from_category(
+        category, attitude, affiliation
+    )
     assert cot_type == "a-f-A-C"
     assert affil == "C"
 
@@ -155,6 +178,7 @@ def test_negative_get_hae():
     alt_geom = ""
     hae = aircot.functions.get_hae(alt_geom)
     assert hae == "9999999.0"
+
 
 def test_get_speed():
     gs = 79.5
@@ -184,7 +208,7 @@ def test_adsb_to_cot_type_lux():
 
 
 def test_set_name_callsign_icao():
-    #icao: str, reg, craft_type, flight, known_craft = {}
+    # icao: str, reg, craft_type, flight, known_craft = {}
     icao = "icao123"
     reg = "reg123"
     craft_type = "craft_type123"
@@ -195,7 +219,7 @@ def test_set_name_callsign_icao():
 
 
 def test_set_name_callsign_icao_reg():
-    #icao: str, reg, craft_type, flight, known_craft = {}
+    # icao: str, reg, craft_type, flight, known_craft = {}
     icao = "icao123"
     reg = "reg123"
     craft_type = "craft_type123"
@@ -206,7 +230,7 @@ def test_set_name_callsign_icao_reg():
 
 
 def test_set_name_callsign_icao_reg_craft_type():
-    #icao: str, reg, craft_type, flight, known_craft = {}
+    # icao: str, reg, craft_type, flight, known_craft = {}
     icao = "icao123"
     reg = "reg123"
     craft_type = "craft_type123"
@@ -217,7 +241,7 @@ def test_set_name_callsign_icao_reg_craft_type():
 
 
 def test_set_name_callsign_icao_reg_craft_type_flight():
-    #icao: str, reg, craft_type, flight, known_craft = {}
+    # icao: str, reg, craft_type, flight, known_craft = {}
     icao = "icao123"
     reg = "reg123"
     craft_type = "craft_type123"
@@ -228,7 +252,7 @@ def test_set_name_callsign_icao_reg_craft_type_flight():
 
 
 def test_set_name_callsign_icao_flight():
-    #icao: str, reg, craft_type, flight, known_craft = {}
+    # icao: str, reg, craft_type, flight, known_craft = {}
     icao = "icao123"
     reg = "reg123"
     craft_type = "craft_type123"

@@ -1,26 +1,45 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# Copyright 2022 Greg Albrecht <oss@undef.net>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Author:: Greg Albrecht W2GMD <oss@undef.net>
+#
 
-"""Python Team Awareness Kit (PyTAK) Module Constants."""
+"""AirCOT Constants."""
 
 import logging
 import os
 
 __author__ = "Greg Albrecht W2GMD <oss@undef.net>"
-__copyright__ = "Copyright 2021 Orion Labs, Inc."
+__copyright__ = "Copyright 2022 Greg Albrecht"
 __license__ = "Apache License, Version 2.0"
 
 
-if bool(os.environ.get('DEBUG')):
+if bool(os.environ.get("DEBUG")):
     LOG_LEVEL: int = logging.DEBUG
     LOG_FORMAT: logging.Formatter = logging.Formatter(
-        ('%(asctime)s aircot %(levelname)s %(name)s.%(funcName)s:%(lineno)d - '
-         '%(message)s'))
-    logging.debug('aircot Debugging Enabled via DEBUG Environment Variable.')
+        (
+            "%(asctime)s aircot %(levelname)s %(name)s.%(funcName)s:%(lineno)d - "
+            "%(message)s"
+        )
+    )
+    logging.debug("aircot Debugging Enabled via DEBUG Environment Variable.")
 else:
     LOG_LEVEL: int = logging.INFO
     LOG_FORMAT: logging.Formatter = logging.Formatter(
-        ('%(asctime)s aircot %(levelname)s - %(message)s'))
+        ("%(asctime)s aircot %(levelname)s - %(message)s")
+    )
 
 
 DEFAULT_COT_STALE: int = 120
@@ -29,13 +48,7 @@ ISO_8601_UTC = "%Y-%m-%dT%H:%M:%S.%fZ"
 
 # FIXME: Maybe transition this to a text file?
 #  3LD identifiers change rapidly, not major airlines, but there are hundreds of these world wide...
-DOMESTIC_US_AIRLINES: list = [
-    "AAL",
-    "UAL",
-    "FDX",
-    "UPS",
-    "SWA"
-]
+DOMESTIC_US_AIRLINES: list = ["AAL", "UAL", "FDX", "UPS", "SWA"]
 
 DEFAULT_HEX_RANGES: dict = {
     "US-CIV": {"start": 0xA00000, "end": 0xADF7C7},
@@ -43,12 +56,15 @@ DEFAULT_HEX_RANGES: dict = {
     "CAN-CIV": {"start": 0xC00000, "end": 0xC0CDF8},
     "CAN-MIL": {"start": 0xC0CDF9, "end": 0xC3FFFF},
     "NZ-CIV": {"start": 0xC80000, "end": 0xC87DFF},
-    "NZ-gnd": {"start": 0xC87E00, "end": 0xC87EFF},  # reserved for ground vehicle transponders
+    "NZ-gnd": {
+        "start": 0xC87E00,
+        "end": 0xC87EFF,
+    },  # reserved for ground vehicle transponders
     "NZ-MIL": {"start": 0xC87F00, "end": 0xC87FFF},
     "AUS-CIV": {"start": 0x7C0000, "end": 0x7FFFFF},
     "AUS-MIL": {"start": 0x7CF800, "end": 0x7CFAFF},
     "UK-CIV": {"start": 0x400000, "end": 0x43FFFF},
-    "UK-MIL": {"start": 0x43C000, "end": 0x43CFFF}
+    "UK-MIL": {"start": 0x43C000, "end": 0x43CFFF},
 }
 
 ICAO_RANGES = [
@@ -83,8 +99,7 @@ ICAO_RANGES = [
     {"start": 0x034000, "end": 0x034FFF, "country": "Cameroon"},
     # { "start": 0xC00000, "end": 0xC3FFFF, "country": "Canada" },
     {"start": 0x096000, "end": 0x0963FF, "country": "Cape Verde"},
-    {"start": 0x06C000, "end": 0x06CFFF,
-     "country": "Central African Republic"},
+    {"start": 0x06C000, "end": 0x06CFFF, "country": "Central African Republic"},
     {"start": 0x084000, "end": 0x084FFF, "country": "Chad"},
     {"start": 0xE80000, "end": 0xE80FFF, "country": "Chile"},
     {"start": 0x780000, "end": 0x7BFFFF, "country": "China"},
@@ -148,8 +163,7 @@ ICAO_RANGES = [
     {"start": 0x748000, "end": 0x74FFFF, "country": "Lebanon"},
     {"start": 0x04A000, "end": 0x04A3FF, "country": "Lesotho"},
     {"start": 0x050000, "end": 0x050FFF, "country": "Liberia"},
-    {"start": 0x018000, "end": 0x01FFFF,
-     "country": "Libyan Arab Jamahiriya"},
+    {"start": 0x018000, "end": 0x01FFFF, "country": "Libyan Arab Jamahiriya"},
     {"start": 0x503C00, "end": 0x503FFF, "country": "Lithuania"},
     {"start": 0x4D0000, "end": 0x4D03FF, "country": "Luxembourg"},
     {"start": 0x054000, "end": 0x054FFF, "country": "Madagascar"},
@@ -162,8 +176,7 @@ ICAO_RANGES = [
     {"start": 0x05E000, "end": 0x05E3FF, "country": "Mauritania"},
     {"start": 0x060000, "end": 0x0603FF, "country": "Mauritius"},
     {"start": 0x0D0000, "end": 0x0D7FFF, "country": "Mexico"},
-    {"start": 0x681000, "end": 0x6813FF,
-     "country": "FedStates of Micronesia"},
+    {"start": 0x681000, "end": 0x6813FF, "country": "FedStates of Micronesia"},
     {"start": 0x4D4000, "end": 0x4D43FF, "country": "Monaco"},
     {"start": 0x682000, "end": 0x6823FF, "country": "Mongolia"},
     {"start": 0x516000, "end": 0x5163FF, "country": "Montenegro"},
@@ -196,12 +209,10 @@ ICAO_RANGES = [
     {"start": 0x100000, "end": 0x1FFFFF, "country": "Russian Federation"},
     {"start": 0x06E000, "end": 0x06EFFF, "country": "Rwanda"},
     {"start": 0xC8C000, "end": 0xC8C3FF, "country": "Saint Lucia"},
-    {"start": 0x0BC000, "end": 0x0BC3FF,
-     "country": "Saint Vincent and the Grenadines"},
+    {"start": 0x0BC000, "end": 0x0BC3FF, "country": "Saint Vincent and the Grenadines"},
     {"start": 0x902000, "end": 0x9023FF, "country": "Samoa"},
     {"start": 0x500000, "end": 0x5003FF, "country": "San Marino"},
-    {"start": 0x09E000, "end": 0x09E3FF,
-     "country": "Sao Tome and Principe"},
+    {"start": 0x09E000, "end": 0x09E3FF, "country": "Sao Tome and Principe"},
     {"start": 0x710000, "end": 0x717FFF, "country": "Saudi Arabia"},
     {"start": 0x070000, "end": 0x070FFF, "country": "Senegal"},
     {"start": 0x4C0000, "end": 0x4C7FFF, "country": "Serbia"},
@@ -223,8 +234,7 @@ ICAO_RANGES = [
     {"start": 0x778000, "end": 0x77FFFF, "country": "Syrian Arab Republic"},
     {"start": 0x515000, "end": 0x5153FF, "country": "Tajikistan"},
     {"start": 0x880000, "end": 0x887FFF, "country": "Thailand"},
-    {"start": 0x512000, "end": 0x5123FF,
-     "country": "Republic of North Macedonia"},
+    {"start": 0x512000, "end": 0x5123FF, "country": "Republic of North Macedonia"},
     {"start": 0x088000, "end": 0x088FFF, "country": "Togo"},
     {"start": 0xC8D000, "end": 0xC8D3FF, "country": "Tonga"},
     {"start": 0x0C6000, "end": 0x0C6FFF, "country": "Trinidad and Tobago"},
@@ -235,8 +245,7 @@ ICAO_RANGES = [
     {"start": 0x508000, "end": 0x50FFFF, "country": "Ukraine"},
     {"start": 0x896000, "end": 0x896FFF, "country": "United Arab Emirates"},
     # { "start": 0x400000, "end": 0x43FFFF, "country": "United Kingdom" },
-    {"start": 0x080000, "end": 0x080FFF,
-     "country": "United Republic of Tanzania"},
+    {"start": 0x080000, "end": 0x080FFF, "country": "United Republic of Tanzania"},
     # { "start": 0xA00000, "end": 0xAFFFFF, "country": "United States" },
     {"start": 0xE90000, "end": 0xE90FFF, "country": "Uruguay"},
     {"start": 0x507C00, "end": 0x507FFF, "country": "Uzbekistan"},
@@ -247,27 +256,20 @@ ICAO_RANGES = [
     {"start": 0x08A000, "end": 0x08AFFF, "country": "Zambia"},
     {"start": 0x004000, "end": 0x0043FF, "country": "Zimbabwe"},
     {"start": 0xF00000, "end": 0xF07FFF, "country": "ICAO (temporary)"},
-    {"start": 0x899000, "end": 0x8993FF,
-     "country": "Taiwan(unofficial) or ICAO (special use)"},
+    {
+        "start": 0x899000,
+        "end": 0x8993FF,
+        "country": "Taiwan(unofficial) or ICAO (special use)",
+    },
     {"start": 0xF09000, "end": 0xF093FF, "country": "ICAO (special use)"},
-    {"start": 0x200000, "end": 0x27FFFF,
-     "country": "Rsrvd (ICAO AFI Region)"},
-    {"start": 0x280000, "end": 0x28FFFF,
-     "country": "Rsrvd (ICAO SAM Region)"},
-    {"start": 0x500000, "end": 0x5FFFFF,
-     "country": "Rsrvd (ICAO EUR/NAT Region)"},
-    {"start": 0x600000, "end": 0x67FFFF,
-     "country": "Rsrvd (ICAO MID Region)"},
-    {"start": 0x680000, "end": 0x6FFFFF,
-     "country": "Rsrvd (ICAO Asia Region)"},
-    {"start": 0x900000, "end": 0x9FFFFF,
-     "country": "Rsrvd (ICAO NAM/PAC Region)"},
-    {"start": 0xB00000, "end": 0xBFFFFF,
-     "country": "Rsrvd (ICAO future use)"},
-    {"start": 0xEC0000, "end": 0xEFFFFF,
-     "country": "Rsrvd (ICAO CAR Region)"},
-    {"start": 0xD00000, "end": 0xDFFFFF,
-     "country": "Rsrvd (ICAO future use)"},
-    {"start": 0xF08000, "end": 0xFFFFFF,
-     "country": "Rsrvd (ICAO future use)"},
+    {"start": 0x200000, "end": 0x27FFFF, "country": "Rsrvd (ICAO AFI Region)"},
+    {"start": 0x280000, "end": 0x28FFFF, "country": "Rsrvd (ICAO SAM Region)"},
+    {"start": 0x500000, "end": 0x5FFFFF, "country": "Rsrvd (ICAO EUR/NAT Region)"},
+    {"start": 0x600000, "end": 0x67FFFF, "country": "Rsrvd (ICAO MID Region)"},
+    {"start": 0x680000, "end": 0x6FFFFF, "country": "Rsrvd (ICAO Asia Region)"},
+    {"start": 0x900000, "end": 0x9FFFFF, "country": "Rsrvd (ICAO NAM/PAC Region)"},
+    {"start": 0xB00000, "end": 0xBFFFFF, "country": "Rsrvd (ICAO future use)"},
+    {"start": 0xEC0000, "end": 0xEFFFFF, "country": "Rsrvd (ICAO CAR Region)"},
+    {"start": 0xD00000, "end": 0xDFFFFF, "country": "Rsrvd (ICAO future use)"},
+    {"start": 0xF08000, "end": 0xFFFFFF, "country": "Rsrvd (ICAO future use)"},
 ]

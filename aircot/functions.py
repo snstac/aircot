@@ -1,7 +1,22 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+#
+# Copyright 2022 Greg Albrecht <oss@undef.net>
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+#
+# Author:: Greg Albrecht W2GMD <oss@undef.net>
+#
 
-"""AirCoT Functions."""
+"""AirCOT Functions."""
 
 import asyncio
 import csv
@@ -16,7 +31,7 @@ import xml.etree.ElementTree
 import aircot
 
 __author__ = "Greg Albrecht W2GMD <oss@undef.net>"
-__copyright__ = "Copyright 2021 Orion Labs, Inc."
+__copyright__ = "Copyright 2022 Greg Albrecht"
 __license__ = "Apache License, Version 2.0"
 
 
@@ -47,8 +62,11 @@ def dolphin(flight: str = None, affil: str = None) -> str:
 
 
 # flight ID is limited to 8 digits in the DO-260B specification
-def adsb_to_cot_type(icao: typing.Union[str, int], category: typing.Union[str, None] = None,
-                     flight: typing.Union[str, None] = None) -> str:
+def adsb_to_cot_type(
+    icao: typing.Union[str, int],
+    category: typing.Union[str, None] = None,
+    flight: typing.Union[str, None] = None,
+) -> str:
     """
     Classify Cursor on Target Event Type from ICAO address (binary, decimal, octal, or hex; and if available, from
     ADS-B DO-260B or GDL90 Emitter Category & Flight ID.
@@ -91,8 +109,12 @@ def adsb_to_cot_type(icao: typing.Union[str, int], category: typing.Union[str, N
     return cot_type
 
 
-def cot_type_from_category(category: typing.Union[int, str], attitude: str, affil: str,
-                           cot_type: typing.Union[str, None] = None) -> tuple:
+def cot_type_from_category(
+    category: typing.Union[int, str],
+    attitude: str,
+    affil: str,
+    cot_type: typing.Union[str, None] = None,
+) -> tuple:
     """Determines the CoT Event Type from the given ADS-B Category."""
     _category = str(category)
 
@@ -140,9 +162,44 @@ def cot_type_from_category(category: typing.Union[int, str], attitude: str, affi
     # add elif or if for:
     #   if no definitive {attitude} and {affil} possible, for the UNKNOWN DO-260B/GDL90 emmitter catagories,
     #   make cot_type = a-u-A
-    elif _category in ["0", "8", "13", "16", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31", "32",
-                       "33", "34", "35", "36", "37", "38", "39", "A0", "B0", "B5", "C0", "C6", "C7", "D0", "D1",
-                       "D2", "D3", "D4", "D5", "D6", "D7"]:
+    elif _category in [
+        "0",
+        "8",
+        "13",
+        "16",
+        "22",
+        "23",
+        "24",
+        "25",
+        "26",
+        "27",
+        "28",
+        "29",
+        "30",
+        "31",
+        "32",
+        "33",
+        "34",
+        "35",
+        "36",
+        "37",
+        "38",
+        "39",
+        "A0",
+        "B0",
+        "B5",
+        "C0",
+        "C6",
+        "C7",
+        "D0",
+        "D1",
+        "D2",
+        "D3",
+        "D4",
+        "D5",
+        "D6",
+        "D7",
+    ]:
         cot_type = f"a-{attitude}-A-{affil}"
 
     return cot_type, affil
@@ -163,7 +220,11 @@ def get_icao_range(range_type: str = "CIV") -> list:
 def icao_in_known_range(icao_int, range_type: str = "CIV") -> bool:
     """Determines if the given ICAO is within a known 'friendly' ICAO Range."""
     for idx in get_icao_range(range_type):
-        if aircot.DEFAULT_HEX_RANGES[idx]["start"] <= icao_int <= aircot.DEFAULT_HEX_RANGES[idx]["end"]:
+        if (
+            aircot.DEFAULT_HEX_RANGES[idx]["start"]
+            <= icao_int
+            <= aircot.DEFAULT_HEX_RANGES[idx]["end"]
+        ):
             return True
 
 
@@ -196,7 +257,11 @@ def get_civ() -> list:
 
 def is_civ(icao: int) -> str:
     for civ in get_civ():
-        if aircot.DEFAULT_HEX_RANGES[civ]["start"] <= icao <= aircot.DEFAULT_HEX_RANGES[civ]["end"]:
+        if (
+            aircot.DEFAULT_HEX_RANGES[civ]["start"]
+            <= icao
+            <= aircot.DEFAULT_HEX_RANGES[civ]["end"]
+        ):
             return True
 
 
@@ -218,7 +283,6 @@ def set_domestic_us(flight: str = None, attitude: str = ".") -> str:
     return attitude
 
 
-
 def get_hae(alt_geom: float = 0.0) -> str:
     # alt_geom: geometric (GNSS / INS) altitude in feet referenced to the
     #           WGS84 ellipsoid
@@ -238,7 +302,9 @@ def get_speed(gs: float = 0.0):
     return str(speed)
 
 
-def set_name_callsign(icao: str, reg=None, craft_type=None, flight=None, known_craft={}):
+def set_name_callsign(
+    icao: str, reg=None, craft_type=None, flight=None, known_craft={}
+):
     """
     Sets the Name and Callsign of the CoT Event.
     Populates the fields with ICAO, Reg, Craft Type and Flight data, if available.
@@ -285,8 +351,7 @@ def set_cot_type(icao_hex, category, flight, known_craft):
 
 
 def icao_int_to_hex(addr) -> str:
-    return str(hex(addr)).lstrip('0x').upper()
-
+    return str(hex(addr)).lstrip("0x").upper()
 
 
 def read_known_craft(csv_file: str) -> list:
@@ -297,3 +362,22 @@ def read_known_craft(csv_file: str) -> list:
         for row in reader:
             all_rows.append(row)
     return all_rows
+
+
+def get_known_craft(
+    filter_db: dict, filter_value: str, filter_key: str = "HEX"
+) -> dict:
+    known_craft = {}
+
+    if filter_db:
+        known_craft = (
+            list(
+                filter(
+                    lambda x: x[filter_key].strip().upper() == filter_value,
+                    filter_db,
+                )
+            )
+            or [{}]
+        )[0]
+
+    return known_craft
