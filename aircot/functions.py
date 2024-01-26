@@ -85,7 +85,7 @@ def adsb_to_cot_type(
     # ADS-B track injected by the FAA via the ADS-B rebroadcast, usually FAA Secondary Radar Mode A/C tracks for safety
     # and ground vehicles
     if isinstance(icao, str):
-        icao = int(f"0x{icao.replace('~', 'TIS-B_')}", 16)
+        icao = int(f"0x{icao.replace('~', '')}", 16)
     elif isinstance(icao, int):
         icao = icao
 
