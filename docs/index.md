@@ -6,7 +6,7 @@ AirCOT is software for classifying aircraft within the Team Awareness Kit (TAK) 
 
 AirCOT is used by these TAK compatible products:
 
-1. [AirTAK](https://www.snstac.com/products/airtak) is a low SWaP-C device for monitoring and analyzing aviation surveillance data via the Team Awareness Kit (TAK) ecosystem of products. 
+1. [AirTAK](https://www.snstac.com/airtak) is a low SWaP-C device for monitoring and analyzing aviation surveillance data via the Team Awareness Kit (TAK) ecosystem of products. 
 2. [ADSBCOT](https://github.com/snstac/adsbcot) is software for monitoring and analyzing aviation surveillance data via the Team Awareness Kit (TAK) ecosystem of products.
 
 [Documentation is available here.](https://aircot.rtfd.io)
