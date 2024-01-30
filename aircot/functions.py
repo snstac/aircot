@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Copyright 2022 Greg Albrecht <oss@undef.net>
+# Copyright Sensors & Signals LLC https://www.snstac.com
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,60 +13,59 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Author:: Greg Albrecht W2GMD <oss@undef.net>
-#
 
 """AirCOT Functions."""
 
-import asyncio
 import csv
-import datetime
-import os
-import socket
-import ssl
-import typing
-import xml
-import xml.etree.ElementTree
+import json
+
+from typing import Optional, Union
 
 import aircot
 
-__author__ = "Greg Albrecht W2GMD <oss@undef.net>"
-__copyright__ = "Copyright 2022 Greg Albrecht"
+__author__ = "Greg Albrecht <gba@snstac.com>"
+__copyright__ = "Copyright Sensors & Signals LLC https://www.snstac.com"
 __license__ = "Apache License, Version 2.0"
 
 
-def lookup_country(icao: int) -> str:
+def lookup_country(icao: bytes) -> Optional[bytes]:
     """
     Lookup ICAO within each country range and return the associated country.
     """
+    country = None
     for country_dict in aircot.ICAO_RANGES:
         if country_dict["start"] <= icao <= country_dict["end"]:
-            return country_dict["country"]
+            country = country_dict["country"]
+    return country
 
 
-# TODO: Pull this out into a custom csv or txt file of known aircraft you want to assign a specific CoT type based on
+# TODO: Pull this out into a custom csv or txt file of known aircraft you want to
+#       assign a specific CoT type based on
 #  FlightID AND/OR ICAO HEX address.
-def dolphin(flight: str = None, affil: str = None) -> str:
+def dolphin(flight: Optional[bytes] = None, affil: Optional[bytes] = None) -> bool:
     """
     Classify an aircraft as USCG Dolphin.
 
-    MH-65D Dolphins out of Air Station SF use older ADS-B, but luckily have a similar "flight" name.
+    MH-65D Dolphins out of Air Station SF use older ADS-B, but luckily have a similar
+    "flight" name.
 
     For example:
     * C6540 / AE2682 https://globe.adsbexchange.com/?icao=ae2682
     * C6604 / AE26BB https://globe.adsbexchange.com/?icao=ae26bb
     """
+    mereswine = False
     if flight and len(flight) >= 3 and flight[:2] in ["C6", b"C6"]:
         if affil and affil in ["M", b"M"]:
-            return True
+            mereswine = True
+    return mereswine
 
 
 # flight ID is limited to 8 digits in the DO-260B specification
 def adsb_to_cot_type(
-    icao: typing.Union[str, int],
-    category: typing.Union[str, None] = None,
-    flight: typing.Union[str, None] = None,
-) -> str:
+    icao: Union[bytes, int],
+    category: Optional[bytes] = None,
+    flight: Optional[bytes] = None,
+) -> bytes:
     """
     Classify Cursor on Target Event Type from ICAO address (binary, decimal, octal, or hex; and if available, from
     ADS-B DO-260B or GDL90 Emitter Category & Flight ID.
@@ -110,12 +109,12 @@ def adsb_to_cot_type(
 
 
 def cot_type_from_category(
-    category: typing.Union[int, str],
-    attitude: str,
-    affil: str,
-    cot_type: typing.Union[str, None] = None,
+    category: Union[int, bytes],
+    attitude: bytes,
+    affil: bytes,
+    cot_type: Optional[bytes] = None,
 ) -> tuple:
-    """Determines the CoT Event Type from the given ADS-B Category."""
+    """Determine the CoT Event Type from the given ADS-B Category."""
     _category = str(category)
 
     # Fixed wing. No CoT exists to further categorize based on DO-260B/GDL90 emitter catagory, cannot determine if
@@ -206,6 +205,7 @@ def cot_type_from_category(
 
 
 def is_dolphin(affil, cot_type, flight):
+    """Call dolphin() with cot type and flight."""
     if dolphin(flight, affil):
         # -H-H is CSAR rotary wing 2525B icon
         cot_type = f"a-f-A-{affil}-H-H"
@@ -218,18 +218,20 @@ def get_icao_range(range_type: str = "CIV") -> list:
 
 
 def icao_in_known_range(icao_int, range_type: str = "CIV") -> bool:
-    """Determines if the given ICAO is within a known 'friendly' ICAO Range."""
+    """Determine if the given ICAO is within a known 'friendly' ICAO Range."""
+    friendly = False
     for idx in get_icao_range(range_type):
         if (
             aircot.DEFAULT_HEX_RANGES[idx]["start"]
             <= icao_int
             <= aircot.DEFAULT_HEX_RANGES[idx]["end"]
         ):
-            return True
+            friendly = True
+    return friendly
 
 
 def set_friendly_mil(icao: int, attitude: str = "u", affil: str = "") -> tuple:
-    """Sets Affiliation and Attitude for 'friendly' Military ICAOs."""
+    """Set Affiliation and Attitude for 'friendly' Military ICAOs."""
     if icao_in_known_range(icao, "MIL"):
         affil = "M"
         attitude = "f"
@@ -237,7 +239,7 @@ def set_friendly_mil(icao: int, attitude: str = "u", affil: str = "") -> tuple:
 
 
 def set_neutral_civ(icao: int, attitude: str = "u", affil: str = "") -> tuple:
-    """Sets Affiliation and Attitude for known 'neutral' Civilian ICAOs."""
+    """Set Affiliation and Attitude for known 'neutral' Civilian ICAOs."""
     if icao_in_known_range(icao):
         affil = "C"
         attitude = "n"
@@ -245,27 +247,32 @@ def set_neutral_civ(icao: int, attitude: str = "u", affil: str = "") -> tuple:
 
 
 def is_known_country_icao(icao: int, attitude: str = "u"):
+    """Determine if the given ICAO is from a known country."""
     if lookup_country(icao):
         attitude = "n"
     return attitude
 
 
 def get_civ() -> list:
-    """Gets a List of Known 'friendly' Civilian ICAO Ranges."""
+    """Get a List of Known 'friendly' Civilian ICAO Ranges."""
     return list(filter(lambda x: "-CIV" in x, aircot.DEFAULT_HEX_RANGES))
 
 
 def is_civ(icao: int) -> str:
+    """Determine if the given ICAO is within the 'Civilian' ICAO ranges."""
+    civ_icao = False
     for civ in get_civ():
         if (
             aircot.DEFAULT_HEX_RANGES[civ]["start"]
             <= icao
             <= aircot.DEFAULT_HEX_RANGES[civ]["end"]
         ):
-            return True
+            civ_icao = True
+    return civ_icao
 
 
 def is_tw(icao: int, attitude: str = "u") -> str:
+    """Determine if the given ICAO is from the Taiwan range."""
     tw_start = 0x899000
     tw_end = 0x8993FF
     if tw_start <= icao <= tw_end:
@@ -273,9 +280,10 @@ def is_tw(icao: int, attitude: str = "u") -> str:
     return attitude
 
 
-# TODO: Eliminate this if section, as it will already be coded as neutral civil cot type if left alone which
-#  fits the cot framework.
-def set_domestic_us(flight: str = None, attitude: str = ".") -> str:
+# TODO: Eliminate this if section, as it will already be coded as neutral civil cot
+#       type if left alone which fits the cot framework.
+def set_domestic_us(flight: Optional[bytes] = None, attitude: str = "u") -> str:
+    """Set the COT Attitude to neutral if the flight is from a known domestic US airline."""
     if flight:
         for dom in aircot.DOMESTIC_US_AIRLINES:
             if flight.startswith(dom):
@@ -284,12 +292,15 @@ def set_domestic_us(flight: str = None, attitude: str = ".") -> str:
 
 
 def get_hae(alt_geom: float = 0.0) -> str:
-    # alt_geom: geometric (GNSS / INS) altitude in feet referenced to the
-    #           WGS84 ellipsoid
+    """
+    Calculate the height above ellipsoid HAE in meters for the given geometric altitude in feet.
+
+    :param alt_geom: geometric (GNSS / INS) altitude in feet referenced to the WGS84 ellipsoid.
+    """
     if alt_geom:
         hae = alt_geom * 0.3048
     else:
-        hae = "9999999.0"
+        hae = aircot.DEFAULT_COT_VAL
     return str(hae)
 
 
@@ -298,17 +309,23 @@ def get_speed(gs: float = 0.0):
     if gs:
         speed = gs * 0.514444
     else:
-        speed = "9999999.0"
+        speed = aircot.DEFAULT_COT_VAL
     return str(speed)
 
 
 def set_name_callsign(
-    icao: str, reg=None, craft_type=None, flight=None, known_craft={}
+    icao: str,
+    reg=None,
+    craft_type=None,
+    flight=None,
+    known_craft: Optional[list] = None,
 ):
     """
-    Sets the Name and Callsign of the CoT Event.
+    Set the Name and Callsign in the COT Event.
     Populates the fields with ICAO, Reg, Craft Type and Flight data, if available.
     """
+    if known_craft is None:
+        known_craft = {}
     name: str = known_craft.get("CALLSIGN")
     if name:
         callsign = name
@@ -327,7 +344,10 @@ def set_name_callsign(
     return name, callsign
 
 
-def set_category(category, known_craft={}):
+def set_category(category, known_craft: Optional[list] = None):
+    """Set the category for the given aircraft if a transform exists in known_craft."""
+    if known_craft is None:
+        known_craft = {}
     cot_type = known_craft.get("COT")
     if not cot_type:
         known_type = known_craft.get("TYPE", "").strip().upper()
@@ -344,6 +364,7 @@ def set_category(category, known_craft={}):
 
 
 def set_cot_type(icao_hex, category, flight, known_craft):
+    """Set the COT Type for the given aircraft if a transform exists in known_craft."""
     cot_type = known_craft.get("COT")
     if not cot_type:
         cot_type = aircot.adsb_to_cot_type(icao_hex, category, flight)
@@ -351,29 +372,46 @@ def set_cot_type(icao_hex, category, flight, known_craft):
 
 
 def icao_int_to_hex(addr) -> str:
+    """Convert ICAO from integer to hexidecimal."""
     return str(hex(addr)).lstrip("0x").upper()
 
 
-def read_known_craft(csv_file: str) -> list:
+def capitalize(small_dict):
+    """Capitlize the keys in the given dict."""
+    big_dict = small_dict
+    if isinstance(small_dict, list):
+        big_dict = [capitalize(v) for v in small_dict]
+    elif isinstance(small_dict, dict):
+        big_dict = {k.upper(): capitalize(v) for k, v in small_dict.items()}
+    return big_dict
+
+
+def read_known_craft(known_file: bytes) -> list:
     """Reads the FILTER_CSV file into a `list`"""
+    # DOMAIN,AGENCY,REG,CALLSIGN,TYPE,MODEL,HEX,COT,TYPE,,
     all_rows = []
-    with open(csv_file) as csv_fd:
-        reader = csv.DictReader(csv_fd)
+    with open(known_file, encoding="UTF-8") as kfd:
+        reader = csv.DictReader(kfd)
         for row in reader:
             all_rows.append(row)
+        if not all_rows:
+            kfd.seek(0)
+            j_db = json.load(kfd)
+            all_rows = capitalize(j_db.get("aircraft", []))
     return all_rows
 
 
 def get_known_craft(
     filter_db: dict, filter_value: str, filter_key: str = "HEX"
 ) -> dict:
+    """Get the known craft 'data transform' from the known craft db."""
     known_craft = {}
-
     if filter_db:
         known_craft = (
             list(
                 filter(
-                    lambda x: x[filter_key].strip().upper() == filter_value,
+                    lambda x: x[filter_key].strip().upper()
+                    == filter_value.strip().upper(),
                     filter_db,
                 )
             )

@@ -1,17 +1,18 @@
-Classify aircraft in TAK
-************************
+![ATAK Screenshot with ADSBCOT aircraft tracks.](atak_screenshot_with_pytak_logo-x25.png)
+
+# Classify aircraft in TAK
 
 AirCOT is software for classifying aircraft within the Team Awareness Kit (TAK) ecosystem of products.
 
 AirCOT is used by these TAK compatible products:
 
-1. `adsbcot <https://github.com/snstac/adsbcot>`_: ADSBCOT is software for monitoring and analyzing aviation surveillance data via the Team Awareness Kit (TAK) ecosystem of products.
-2. `AirTAK <https://www.snstac.com/products/airtak>`_: AirTAK is a low SWaP-C device for monitoring and analyzing aviation surveillance data via the Team Awareness Kit (TAK) ecosystem of products. 
+1. [AirTAK](https://www.snstac.com/products/airtak) is a low SWaP-C device for monitoring and analyzing aviation surveillance data via the Team Awareness Kit (TAK) ecosystem of products. 
+2. [ADSBCOT](https://github.com/snstac/adsbcot) is software for monitoring and analyzing aviation surveillance data via the Team Awareness Kit (TAK) ecosystem of products.
 
-`Documentation is available here. <https://aircot.rtfd.io>`_
+[Documentation is available here.](https://aircot.rtfd.io)
 
-License
-=======
+# License
+
 Copyright Sensors & Signals LLC https://www.snstac.com
 
 Licensed under the Apache License, Version 2.0 (the "License");

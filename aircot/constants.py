@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Copyright 2022 Greg Albrecht <oss@undef.net>
+# Copyright Sensors & Signals LLC https://www.snstac.com
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -13,7 +13,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Author:: Greg Albrecht W2GMD <oss@undef.net>
 #
 
 """AirCOT Constants."""
@@ -21,33 +20,36 @@
 import logging
 import os
 
-__author__ = "Greg Albrecht W2GMD <oss@undef.net>"
-__copyright__ = "Copyright 2022 Greg Albrecht"
+__author__ = "Greg Albrecht <gba@snstac.com>"
+__copyright__ = "Copyright Sensors & Signals LLC https://www.snstac.com"
 __license__ = "Apache License, Version 2.0"
 
+LOG_LEVEL: int = logging.INFO
+LOG_FORMAT: logging.Formatter = logging.Formatter(
+    ("%(asctime)s aircot %(levelname)s - %(message)s")
+)
 
 if bool(os.environ.get("DEBUG")):
-    LOG_LEVEL: int = logging.DEBUG
-    LOG_FORMAT: logging.Formatter = logging.Formatter(
+    LOG_LEVEL = logging.DEBUG
+    LOG_FORMAT = logging.Formatter(
         (
             "%(asctime)s aircot %(levelname)s %(name)s.%(funcName)s:%(lineno)d - "
             "%(message)s"
         )
     )
     logging.debug("aircot Debugging Enabled via DEBUG Environment Variable.")
-else:
-    LOG_LEVEL: int = logging.INFO
-    LOG_FORMAT: logging.Formatter = logging.Formatter(
-        ("%(asctime)s aircot %(levelname)s - %(message)s")
-    )
-
 
 DEFAULT_COT_STALE: int = 120
+DEFAULT_COT_VAL: str = "9999999.0"
 
-ISO_8601_UTC = "%Y-%m-%dT%H:%M:%S.%fZ"
+W3C_XML_DATETIME: str = "%Y-%m-%dT%H:%M:%S.%fZ"
+ISO_8601_UTC = W3C_XML_DATETIME  # Issue 51: Not technically correct.
+
+DEFAULT_ADSB_ID_DB: str = "cotdb_indexed.json"
 
 # FIXME: Maybe transition this to a text file?
-#  3LD identifiers change rapidly, not major airlines, but there are hundreds of these world wide...
+#  3LD identifiers change rapidly, not major airlines, but there are hundreds of
+#  these world wide...
 DOMESTIC_US_AIRLINES: list = ["AAL", "UAL", "FDX", "UPS", "SWA"]
 
 DEFAULT_HEX_RANGES: dict = {

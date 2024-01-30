@@ -1,11 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-# Copyright 2022 Greg Albrecht <oss@undef.net>
+# Copyright Sensors & Signals LLC https://www.snstac.com
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
-# You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+# You may obtain a copy of the License at
+#
+# http://www.apache.org/licenses/LICENSE-2.0
 #
 # Unless required by applicable law or agreed to in writing, software
 # distributed under the License is distributed on an "AS IS" BASIS,
@@ -13,18 +15,16 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-# Author:: Greg Albrecht W2GMD <oss@undef.net>
-#
 
 """AirCoT Module Tests."""
 
 import asyncio
+import pprint
 import urllib
 
 import pytest
 
 import aircot
-import aircot.functions
 
 __author__ = "Greg Albrecht W2GMD <oss@undef.net>"
 __copyright__ = "Copyright 2022 Greg Albrecht"
@@ -260,3 +260,17 @@ def test_set_name_callsign_icao_flight():
     name, callsign = aircot.set_name_callsign(icao, flight=flight)
     assert "ICAO-icao123" == name
     assert "FLIGHT123" == callsign
+
+
+def test_knowndb_csv():
+    """Test reading KnownDB CSV file with aircraft classifying hints."""
+    known_db = aircot.read_known_craft("tests/data/example-known_craft.csv")
+    known_craft: dict = aircot.get_known_craft(known_db, "N17085", "REG")
+    assert known_craft["COT"] == "a-f-A-C-F"
+
+
+def test_adsbid_json():
+    """Test reading ADSB ID DB JSON file with aircraft classifying hints."""
+    known_db = aircot.read_known_craft("tests/data/cotdb.json")
+    known_craft: dict = aircot.get_known_craft(known_db, "e49555", filter_key="HEXID")
+    assert known_craft["COT"] == "a-f-A-M-F-U-M"
