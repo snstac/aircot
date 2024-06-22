@@ -1,3 +1,8 @@
+## AirCOT 3.0.0
+
+Happy Summer Solstice
+
+
 ## AirCOT 2.0.0
 
 - New for 2024!

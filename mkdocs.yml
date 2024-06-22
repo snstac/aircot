@@ -1,4 +1,4 @@
-site_name: AirCOT - Aircraft classifiers for TAK
+site_name: Aircraft classifiers for TAK
 site_url: https://aircot.rtfd.io/
 repo_url: https://github.com/snstac/aircot/
 site_description: Software for classifying aircraft within the Team Awareness Kit (TAK) ecosystem of products.

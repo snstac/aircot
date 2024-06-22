@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# constants.py from https://github.com/snstac/aircot
 #
 # Copyright Sensors & Signals LLC https://www.snstac.com
 #
@@ -20,10 +21,6 @@
 import logging
 import os
 
-__author__ = "Greg Albrecht <gba@snstac.com>"
-__copyright__ = "Copyright Sensors & Signals LLC https://www.snstac.com"
-__license__ = "Apache License, Version 2.0"
-
 LOG_LEVEL: int = logging.INFO
 LOG_FORMAT: logging.Formatter = logging.Formatter(
     ("%(asctime)s aircot %(levelname)s - %(message)s")
@@ -43,7 +40,7 @@ DEFAULT_COT_STALE: int = 120
 DEFAULT_COT_VAL: str = "9999999.0"
 
 W3C_XML_DATETIME: str = "%Y-%m-%dT%H:%M:%S.%fZ"
-ISO_8601_UTC = W3C_XML_DATETIME  # Issue 51: Not technically correct.
+ISO_8601_UTC: str = "%Y-%m-%dT%H:%M:%SZ"
 
 DEFAULT_ADSB_ID_DB: str = "cotdb_indexed.json"
 

@@ -16,17 +16,11 @@
 # limitations under the License.
 #
 
-"""Aircraft classifier for TAK.
+"""Aircraft classifier for TAK."""
 
-:source: <https://github.com/snstac/aircot>
-"""
+__version__ = "3.0.0-beta1"
 
-__version__ = "2.0.0"
-__author__ = "Greg Albrecht <gba@snstac.com>"
-__copyright__ = "Copyright Sensors & Signals LLC https://www.snstac.com"
-__license__ = "Apache License, Version 2.0"
-
-# Python 3.6 test/build work-around:
+# COMPAT Python 3.6 test/build work-around:
 try:
     from .constants import (  # NOQA
         LOG_FORMAT,
@@ -67,5 +61,4 @@ try:
 except ImportError as exc:
     import warnings
 
-    warnings.warn(str(exc))
-    warnings.warn("ADSBCOT ignoring ImportError - Python 3.6 compat work-around.")
+    warnings.warn(f"COMPAT Python 3.6. Ignoring {str(exc)}")

@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# setup.py from https://github.com/snstac/aircot
 #
 # Copyright Sensors & Signals LLC https://www.snstac.com
 #
@@ -16,10 +17,7 @@
 # limitations under the License.
 #
 
-"""Setup for AirCOT.
-
-:source: <https://github.com/snstac/aircot>
-"""
+"""Setup for AirCOT."""
 
 from setuptools import setup
 

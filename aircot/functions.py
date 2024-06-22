@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+# constants.py from https://github.com/snstac/aircot
 #
 # Copyright Sensors & Signals LLC https://www.snstac.com
 #
