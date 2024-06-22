@@ -5,8 +5,8 @@ independently.
 
 ```sh linenums="1"
 sudo apt update
-wget https://github.com/snstac/aircot/releases/latest/download/python3-aircot_latest_all.deb
-sudo apt install -f ./python3-aircot_latest_all.deb
+wget https://github.com/snstac/aircot/releases/latest/download/aircot_latest_all.deb
+sudo apt install -f ./aircot_latest_all.deb
 ```
 
 ## Windows, Linux

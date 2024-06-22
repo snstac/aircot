@@ -2,6 +2,15 @@
 
 Happy Summer Solstice
 
+- Rewrote GitHub actions, moved most logic to shell script and Makefile.
+- Renamed Debian package from python3-aircot to aircot.
+- Standardized Makefile for all PyTAK based programs.
+- Cleaned, simplified and expanded documentation.
+- Created Makefile jobs for Debian packaging and PyTAK customization.
+- Moved all media to media sub directory under docs/.
+- Converted README.rst to README.md.
+- Style & Linting of code.
+
 
 ## AirCOT 2.0.0
 

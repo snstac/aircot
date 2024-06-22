@@ -18,7 +18,7 @@
 
 """Aircraft classifier for TAK."""
 
-__version__ = "3.0.0-beta1"
+__version__ = "3.0.0"
 
 # COMPAT Python 3.6 test/build work-around:
 try:
