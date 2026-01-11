@@ -22,7 +22,7 @@ import csv
 import json
 import logging
 
-from typing import Optional, Union
+from typing import Optional, Union, Tuple
 
 from aircot.constants import DEFAULT_COUNTRIES_FILE, DEFAULT_HEX_RANGES, DOMESTIC_US_AIRLINES, DEFAULT_COT_VAL
 
@@ -397,7 +397,7 @@ def set_name_callsign(
     craft_type: Optional[str] = None,
     flight: Optional[str] = None,
     known_craft: Optional[dict] = None,
-) -> tuple[str, str]:
+) -> Tuple[str, str]:
     """
     Set the Name and Callsign in the CoT Event.
     
