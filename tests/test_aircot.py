@@ -215,7 +215,7 @@ def test_set_name_callsign_icao():
     flight = "flight123"
     name, callsign = aircot.set_name_callsign(icao)
     assert "ICAO-icao123" == name
-    assert "ICAO-icao123" == callsign
+    assert "ICAO-icao123 (icao123)" == callsign
 
 
 def test_set_name_callsign_icao_reg():
@@ -226,7 +226,7 @@ def test_set_name_callsign_icao_reg():
     flight = "flight123"
     name, callsign = aircot.set_name_callsign(icao, reg)
     assert "ICAO-icao123" == name
-    assert "reg123" == callsign
+    assert "reg123 (icao123)" == callsign
 
 
 def test_set_name_callsign_icao_reg_craft_type():
@@ -237,7 +237,7 @@ def test_set_name_callsign_icao_reg_craft_type():
     flight = "flight123"
     name, callsign = aircot.set_name_callsign(icao, reg, craft_type)
     assert "ICAO-icao123" == name
-    assert "reg123-craft_type123" == callsign
+    assert "reg123-craft_type123 (icao123)" == callsign
 
 
 def test_set_name_callsign_icao_reg_craft_type_flight():
@@ -248,7 +248,7 @@ def test_set_name_callsign_icao_reg_craft_type_flight():
     flight = "flight123"
     name, callsign = aircot.set_name_callsign(icao, reg, craft_type, flight)
     assert "ICAO-icao123" == name
-    assert "FLIGHT123-reg123-craft_type123" == callsign
+    assert "FLIGHT123-reg123-craft_type123 (icao123)" == callsign
 
 
 def test_set_name_callsign_icao_flight():
@@ -259,7 +259,7 @@ def test_set_name_callsign_icao_flight():
     flight = "flight123"
     name, callsign = aircot.set_name_callsign(icao, flight=flight)
     assert "ICAO-icao123" == name
-    assert "FLIGHT123" == callsign
+    assert "FLIGHT123 (icao123)" == callsign
 
 
 def test_knowndb_csv():
