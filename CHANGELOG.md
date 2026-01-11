@@ -2,7 +2,7 @@
 
 - Happy 2026!
 - Rewritten and optimized.
-- Added embedded TAK-ADSB-ID from @sgofferj
+- Added embedded TAK-ADSB-ID from @sgofferj (Fixes #9)
 
 ## AirCOT 3.0.0
 
