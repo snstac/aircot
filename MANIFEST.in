@@ -1,8 +1,5 @@
-graft aircot
-
-global-exclude .DS_Store
-global-exclude __pycache__
-global-exclude *.pyc
-
-include README.rst LICENSE
-
+include README.md CHANGELOG.md LICENSE src/aircot/VERSION src/aircot/data/*
+graft src
+recursive-include src/aircot/data *.csv *.txt
+recursive-include aircot/data *.csv *.txt
+include src/aircot/data *.csv *.txt

@@ -1,3 +1,9 @@
+## AirCOT 4.0.0
+
+- Happy 2026!
+- Rewritten and optimized.
+- Added embedded TAK-ADSB-ID from @sgofferj
+
 ## AirCOT 3.0.0
 
 Happy Summer Solstice
