@@ -18,7 +18,6 @@
 
 """Aircraft classifier for TAK."""
 
-__version__ = "4.0.0-beta1"
 
 from .constants import (  # NOQA
     LOG_FORMAT,
